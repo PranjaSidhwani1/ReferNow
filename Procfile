@@ -1,1 +1,1 @@
-web: python manage.py migrate && gunicorn referral_portal.wsgi
+web: gunicorn referral_portal.wsgi
