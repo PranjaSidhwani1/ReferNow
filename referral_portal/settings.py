@@ -18,8 +18,11 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-ALLOWED_HOSTS = ["*.onrender.com"]
+ALLOWED_HOSTS = ["refernow.onrender.com"]
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://refernow.onrender.com"
+]
 
 # Application definition
 
