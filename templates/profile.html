@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">My Profile</h2>
+
+<div class="card shadow-sm p-4">
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="mb-3">
+        <label>Name</label>
+        <input type="text" class="form-control" value="{{ request.user.username }}" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email" class="form-control" value="{{ request.user.email }}" disabled>
+    </div>
+
+    <div class="mb-3">
+        <label>Phone Number</label>
+        <input type="text" name="phone_number" class="form-control" value="{{ profile.phone_number }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Current Location</label>
+        <input type="text" name="current_location" class="form-control" value="{{ profile.current_location }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Role</label>
+        <select name="role" class="form-control">
+            <option value="">Select</option>
+            <option value="student" {% if profile.role == "student" %}selected{% endif %}>Student</option>
+            <option value="employed" {% if profile.role == "employed" %}selected{% endif %}>Employed</option>
+            <option value="self_employed" {% if profile.role == "self_employed" %}selected{% endif %}>Self Employed</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>Company</label>
+        <input type="text" name="company" class="form-control" value="{{ profile.company }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Designation</label>
+        <input type="text" name="designation" class="form-control" value="{{ profile.designation }}">
+    </div>
+
+    <div class="mb-3">
+        <label>GitHub</label>
+        <input type="url" name="github" class="form-control" value="{{ profile.github }}">
+    </div>
+
+    <div class="mb-3">
+        <label>LinkedIn</label>
+        <input type="url" name="linkedin" class="form-control" value="{{ profile.linkedin }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Portfolio</label>
+        <input type="url" name="portfolio" class="form-control" value="{{ profile.portfolio }}">
+    </div>
+
+    <div class="mb-3">
+        <label>Resume</label>
+        <input type="file" name="resume" class="form-control">
+        {% if profile.resume %}
+            <p class="mt-2">
+                Current Resume:
+                <a href="{{ profile.resume.url }}" target="_blank">View</a>
+            </p>
+        {% endif %}
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Save Changes
+    </button>
+
+</form>
+
+</div>
+
+{% endblock %}

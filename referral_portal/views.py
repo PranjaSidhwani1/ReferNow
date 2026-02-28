@@ -47,7 +47,7 @@ def signup_view(request):
                 password=password
             )
             login(request, user)
-            return redirect("/")
+            return redirect("/profile/")
 
         except IntegrityError:
             return render(request, "signup.html", {

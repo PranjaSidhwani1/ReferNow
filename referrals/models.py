@@ -1,8 +1,13 @@
 from django.db import models
 from django.conf import settings
+import uuid
 
+
+import uuid
 
 class ReferralPost(models.Model):
+
+    job_id = models.CharField(max_length=20, blank=True)
 
     referrer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -15,6 +20,11 @@ class ReferralPost(models.Model):
     description = models.TextField()
     available_slots = models.IntegerField(default=1)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.job_id:
+            self.job_id = str(uuid.uuid4())[:8].upper()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.company} - {self.job_title}"

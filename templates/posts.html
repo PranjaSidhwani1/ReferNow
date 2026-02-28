@@ -19,8 +19,14 @@
                 </p>
 
                 <p>
-                    <strong>Slots:</strong> {{ post.available_slots }}<br>
-                    <strong>Posted by:</strong> {{ post.referrer.username }}
+                    <strong>Job ID:</strong> {{ post.job_id }} <br>
+                    <strong>Company:</strong> {{ post.company }} <br>
+                    <strong>Slots:</strong> {{ post.available_slots }} <br>
+                    <strong>Posted By:</strong> 
+                    {{ post.referrer.username }}
+                    {% if post.referrer.profile.designation %}
+                        ({{ post.referrer.profile.designation }})
+                    {% endif %}
                 </p>
 
                 <button class="btn btn-outline-primary">

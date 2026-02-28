@@ -15,6 +15,10 @@ from django.shortcuts import render, redirect
 from .models import ReferralPost
 from django.contrib.auth.decorators import login_required
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from .models import ReferralPost
+
 
 class CreateReferralPostView(APIView):
 
@@ -56,17 +60,26 @@ def post_list_page(request):
     return render(request, "posts.html", {"posts": posts})
 
 
+
 @login_required
 def create_post_page(request):
+
+    profile = request.user.profile
+
+    # Prevent posting if company not filled
+    if not profile.company:
+        return render(request, "create_post.html", {
+            "error": "Please update your profile with company information first."
+        })
+
     if request.method == "POST":
-        company = request.POST.get("company")
         job_title = request.POST.get("job_title")
         description = request.POST.get("description")
         slots = request.POST.get("available_slots")
 
         ReferralPost.objects.create(
             referrer=request.user,
-            company=company,
+            company=profile.company,   # 🔒 locked
             job_title=job_title,
             description=description,
             available_slots=slots
@@ -74,4 +87,6 @@ def create_post_page(request):
 
         return redirect("/api/referrals/posts-page/")
 
-    return render(request, "create_post.html")
+    return render(request, "create_post.html", {
+        "company": profile.company
+    })
