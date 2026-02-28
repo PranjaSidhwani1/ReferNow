@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="text-center">
+    <h1 class="mb-4">Welcome to Refer Now</h1>
+    <p class="lead">Connect. Refer. Switch Jobs.</p>
+</div>
+
+{% if user.is_authenticated %}
+    <div class="row mt-5">
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Browse Referral Posts</h5>
+                    <p class="card-text">Search and apply to available referrals.</p>
+                    <a href="/api/referrals/posts-page/" class="btn btn-primary">
+                        View Posts
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Create Referral Post</h5>
+                    <p class="card-text">Offer referrals for your company.</p>
+                    <a href="/api/referrals/create-post-page/" class="btn btn-success">
+                        Create Post
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% else %}
+    <div class="text-center mt-5">
+        <a href="/login/" class="btn btn-lg btn-primary">
+            Get started
+        </a>
+    </div>
+{% endif %}
+
+{% endblock %}

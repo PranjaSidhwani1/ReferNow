@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="mb-4">Available Referral Posts</h2>
+
+<div class="row">
+
+{% for post in posts %}
+    <div class="col-md-6 mb-4">
+        <div class="card shadow-sm h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ post.company }} - {{ post.job_title }}
+                </h5>
+
+                <p class="card-text">
+                    {{ post.description }}
+                </p>
+
+                <p>
+                    <strong>Slots:</strong> {{ post.available_slots }}<br>
+                    <strong>Posted by:</strong> {{ post.referrer.username }}
+                </p>
+
+                <button class="btn btn-outline-primary">
+                    Apply
+                </button>
+            </div>
+        </div>
+    </div>
+{% empty %}
+    <p>No referral posts available.</p>
+{% endfor %}
+
+</div>
+
+{% endblock %}
