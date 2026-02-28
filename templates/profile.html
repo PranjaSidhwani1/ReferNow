@@ -31,7 +31,7 @@
 
     <div class="mb-3">
         <label>Role</label>
-        <select name="role" class="form-control">
+        <select name="role" class="form-control" required>
             <option value="">Select</option>
             <option value="student" {% if profile.role == "student" %}selected{% endif %}>Student</option>
             <option value="employed" {% if profile.role == "employed" %}selected{% endif %}>Employed</option>

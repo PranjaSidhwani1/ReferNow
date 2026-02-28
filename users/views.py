@@ -52,6 +52,6 @@ def profile_view(request):
             profile.resume = request.FILES.get("resume")
 
         profile.save()
-        return redirect("/profile/")
+        return redirect("/")
 
     return render(request, "profile.html", {"profile": profile})
