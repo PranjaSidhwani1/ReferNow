@@ -55,3 +55,4 @@ def signup_view(request):
             })
 
     return render(request, "signup.html")
+

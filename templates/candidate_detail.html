@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+
+    <!-- Header -->
+    <div class="mb-4">
+        <h2>Candidate Details</h2>
+        <p class="text-muted">
+            For: {{ application.referral.company }} - {{ application.referral.job_title }}
+        </p>
+    </div>
+
+    <!-- Status Badge -->
+    <div class="mb-3">
+        <strong>Status:</strong>
+
+        {% if application.status == "PENDING" %}
+            <span class="badge bg-warning text-dark">Pending</span>
+        {% elif application.status == "APPROVED" %}
+            <span class="badge bg-success">Approved</span>
+        {% elif application.status == "REJECTED" %}
+            <span class="badge bg-danger">Rejected</span>
+        {% endif %}
+    </div>
+
+    <!-- Candidate Card -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h4 class="mb-3">{{ application.full_name }}</h4>
+
+            <p><strong>Email:</strong> {{ application.email }}</p>
+
+            <p><strong>Company:</strong>
+                {{ application.applicant.profile.company }}
+            </p>
+
+            <p><strong>Designation:</strong>
+                {{ application.applicant.profile.designation }}
+            </p>
+
+            <p>
+                <strong>Resume:</strong>
+                <a href="{{ application.resume.url }}" target="_blank">
+                    View Resume
+                </a>
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Answers Section -->
+    <div class="card shadow-sm mb-4">
+        <div class="card-body">
+
+            <h5>Why should I refer you?</h5>
+            <p class="text-muted">
+                {{ application.why_refer }}
+            </p>
+
+            <hr>
+
+            <h5>Why do you want to join this company?</h5>
+            <p class="text-muted">
+                {{ application.why_company }}
+            </p>
+
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    {% if application.status == "PENDING" and application.referral.is_open %}
+        <div class="mb-4">
+            <a href="{% url 'update_application_status' application.id 'accept' %}"
+               class="btn btn-success me-2">
+                Accept
+            </a>
+
+            <a href="{% url 'update_application_status' application.id 'reject' %}"
+               class="btn btn-danger">
+                Reject
+            </a>
+        </div>
+    {% endif %}
+
+    <!-- Back Button -->
+    <a href="{% url 'post_applicants' application.referral.id %}"
+       class="btn btn-outline-secondary">
+        Back to Applicants
+    </a>
+
+</div>
+
+{% endblock %}

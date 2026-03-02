@@ -29,9 +29,10 @@
                     {% endif %}
                 </p>
 
-                <button class="btn btn-outline-primary">
-                    Apply
-                </button>
+                <a href="{% url 'apply_referral' post.id %}" 
+                    class="btn btn-outline-primary">
+                        Apply
+                </a>
             </div>
         </div>
     </div>

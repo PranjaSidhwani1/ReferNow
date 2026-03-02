@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 import uuid
+from django.db import models
+from django.conf import settings
 
 
 import uuid
@@ -19,11 +21,19 @@ class ReferralPost(models.Model):
     job_title = models.CharField(max_length=255)
     description = models.TextField()
     available_slots = models.IntegerField(default=1)
+
+    is_open = models.BooleanField(default=True)  # NEW FIELD
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
         if not self.job_id:
             self.job_id = str(uuid.uuid4())[:8].upper()
+
+        if self.available_slots <= 0:
+            self.available_slots = 0
+            self.is_open = False
+
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -62,3 +72,42 @@ class ReferralApplication(models.Model):
 
     def __str__(self):
         return f"{self.candidate.username} -> {self.referral_post.company}"
+    
+
+
+
+class Referral(models.Model):
+    title = models.CharField(max_length=200)
+    company = models.CharField(max_length=200)
+    description = models.TextField()
+    posted_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Application(models.Model):
+    STATUS_CHOICES = [
+        ("PENDING", "Pending"),
+        ("APPROVED", "Approved"),
+        ("REJECTED", "Rejected"),
+    ]
+
+    referral = models.ForeignKey(ReferralPost, on_delete=models.CASCADE)
+    applicant = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    full_name = models.CharField(max_length=200)
+    email = models.EmailField()
+    resume = models.FileField(upload_to='resumes/')
+
+    why_refer = models.TextField()
+    why_company = models.TextField()
+
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default="PENDING"
+    )
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('referral', 'applicant')

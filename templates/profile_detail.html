@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>{{ profile_user.username }}</h3>
+<p>Email: {{ profile_user.email }}</p>
+<p>Company: {{ profile_user.profile.company }}</p>
+<p>Designation: {{ profile_user.profile.designation }}</p>
+
+<a href="{{ profile_user.profile.resume.url }}" target="_blank">
+    View Resume
+</a>
+
+{% endblock %}

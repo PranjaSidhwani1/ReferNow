@@ -1,46 +1,70 @@
 {% extends "base.html" %}
-
 {% block content %}
 
-<div class="text-center">
-    <h1 class="mb-4">Welcome to Refer Now</h1>
-    <p class="lead">Connect. Refer. Switch Jobs.</p>
-</div>
+<h2 class="mb-4">Dashboard</h2>
 
-{% if user.is_authenticated %}
-    <div class="row mt-5">
+<div class="row g-4">
 
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Browse Referral Posts</h5>
-                    <p class="card-text">Search and apply to available referrals.</p>
-                    <a href="/api/referrals/posts-page/" class="btn btn-primary">
-                        View Posts
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="card shadow-sm">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Create Referral Post</h5>
-                    <p class="card-text">Offer referrals for your company.</p>
-                    <a href="/api/referrals/create-post-page/" class="btn btn-success">
-                        Create Post
-                    </a>
-                </div>
-            </div>
-        </div>
-
-    </div>
-{% else %}
-    <div class="text-center mt-5">
-        <a href="/login/" class="btn btn-lg btn-primary">
-            Get started
+  <!-- Browse Posts -->
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body text-center">
+        <h4 class="mb-3">Browse Referral Posts</h4>
+        <p class="text-muted">
+          Explore referral opportunities shared by professionals.
+        </p>
+        <a href="{% url 'posts_page' %}" class="btn btn-primary">
+          View Posts
         </a>
+      </div>
     </div>
-{% endif %}
+  </div>
+
+  <!-- Create Post -->
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body text-center">
+        <h4 class="mb-3">Create Referral Post</h4>
+        <p class="text-muted">
+          Share openings from your company and help others.
+        </p>
+        <a href="{% url 'create_post_page' %}" class="btn btn-dark">
+          Create Post
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Applications -->
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body text-center">
+        <h4 class="mb-3">My Applications</h4>
+        <p class="text-muted">
+          Track the referrals you have applied for.
+        </p>
+        <a href="{% url 'my_applications' %}" class="btn btn-outline-primary">
+          View Applications
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- My Referrals -->
+  <div class="col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-body text-center">
+        <h4 class="mb-3">My Referral Posts</h4>
+        <p class="text-muted">
+          Manage your referral posts and review applicants.
+        </p>
+        <a href="{% url 'my_posts' %}" class="btn btn-outline-dark">
+          View My Posts
+        </a>
+      </div>
+    </div>
+  </div>
+
+</div>
 
 {% endblock %}

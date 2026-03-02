@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card shadow p-4">
+        <h3>Apply for {{ referral.title }} at {{ referral.company }}</h3>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <!-- Locked Profile Fields -->
+            <div class="mb-3">
+                <label>Full Name</label>
+                <input type="text" class="form-control" value="{{ request.user.username }}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label>Email</label>
+                <input type="email" class="form-control" value="{{ request.user.email }}" readonly>
+            </div>
+
+            <div class="mb-3">
+                <label>Resume</label>
+                <input type="text" class="form-control" value="{{ request.user.profile.resume.url }}" readonly>
+            </div>
+
+            <!-- Extra Questions -->
+            <div class="mb-3">
+                <label>Why should I refer you?</label>
+                <textarea name="why_refer" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="mb-3">
+                <label>Why do you want to join this company?</label>
+                <textarea name="why_company" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
