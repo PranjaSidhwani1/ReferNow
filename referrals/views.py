@@ -256,8 +256,11 @@ def candidate_chat(request, app_id):
         applicant=request.user
     )
 
+    # 🔒 If chat closed → block access
     if not application.chat_enabled:
-        return render(request, "chat_closed.html")
+        return render(request, "chat_closed.html", {
+            "application": application
+        })
 
     if request.method == "POST":
         message = request.POST.get("message")
@@ -277,7 +280,6 @@ def candidate_chat(request, app_id):
         "application": application,
         "messages": messages
     })
-
 
 @login_required
 def toggle_chat(request, app_id):
