@@ -206,15 +206,17 @@ def profile_detail(request, user_id):
 
 @login_required
 def candidate_detail(request, app_id):
-    application = get_object_or_404(
-        Application,
-        id=app_id,
-        referral__referrer=request.user
-    )
+    application = get_object_or_404(Application, id=app_id)
 
+    # 🔒 Allow only referrer OR applicant
+    if request.user != application.referral.referrer and request.user != application.applicant:
+        return redirect("posts_page")
+
+    # Prevent sending message if chat not enabled
     if request.method == "POST":
         if not application.chat_enabled:
             return redirect("candidate_detail", app_id=app_id)
+
         message = request.POST.get("message")
 
         if message:
@@ -223,6 +225,7 @@ def candidate_detail(request, app_id):
                 sender=request.user,
                 message=message
             )
+
         return redirect("candidate_detail", app_id=app_id)
 
     messages = application.messages.select_related("sender").order_by("timestamp")
