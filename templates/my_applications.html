@@ -30,8 +30,8 @@
         <!-- CHAT COLUMN -->
         <td>
             {% if app.chat_enabled %}
-                <a href="{% url 'candidate_detail' app.id %}"
-                   class="btn btn-sm btn-primary">
+                <a href="{% url 'candidate_chat' app.id %}"
+                class="btn btn-sm btn-primary">
                     Open Chat
                 </a>
             {% else %}

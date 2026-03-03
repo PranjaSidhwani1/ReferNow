@@ -141,6 +141,18 @@
         <span class="badge bg-success">Chat Enabled</span>
     {% endif %}
 
+    {% if application.chat_enabled %}
+        <a href="{% url 'toggle_chat' application.id %}"
+        class="btn btn-danger mb-3">
+            Close Chat
+        </a>
+    {% else %}
+        <a href="{% url 'toggle_chat' application.id %}"
+        class="btn btn-info mb-3">
+            Open Chat
+        </a>
+    {% endif %}
+
     <!-- Back Button -->
     <a href="{% url 'post_applicants' application.referral.id %}"
        class="btn btn-outline-secondary">

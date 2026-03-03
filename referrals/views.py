@@ -247,3 +247,47 @@ def open_chat(request, app_id):
     application.save()
 
     return redirect("candidate_detail", app_id=app_id)
+
+@login_required
+def candidate_chat(request, app_id):
+    application = get_object_or_404(
+        Application,
+        id=app_id,
+        applicant=request.user
+    )
+
+    if not application.chat_enabled:
+        return render(request, "chat_closed.html")
+
+    if request.method == "POST":
+        message = request.POST.get("message")
+
+        if message:
+            ChatMessage.objects.create(
+                application=application,
+                sender=request.user,
+                message=message
+            )
+
+        return redirect("candidate_chat", app_id=app_id)
+
+    messages = application.messages.select_related("sender").order_by("timestamp")
+
+    return render(request, "candidate_chat.html", {
+        "application": application,
+        "messages": messages
+    })
+
+
+@login_required
+def toggle_chat(request, app_id):
+    application = get_object_or_404(
+        Application,
+        id=app_id,
+        referral__referrer=request.user  # only referrer can toggle
+    )
+
+    application.chat_enabled = not application.chat_enabled
+    application.save()
+
+    return redirect("candidate_detail", app_id=app_id)
