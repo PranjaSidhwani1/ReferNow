@@ -63,12 +63,14 @@ def create_post_page(request):
 
     if request.method == "POST":
         job_title = request.POST.get("job_title")
+        job_id = request.POST.get("job_id")
         description = request.POST.get("description")
         slots = request.POST.get("available_slots")
 
         ReferralPost.objects.create(
             referrer=request.user,
-            company=profile.company,   # 🔒 locked
+            company=profile.company,
+            job_id=job_id,
             job_title=job_title,
             description=description,
             available_slots=slots

@@ -9,7 +9,7 @@ import uuid
 
 class ReferralPost(models.Model):
 
-    job_id = models.CharField(max_length=20, blank=True)
+    job_id = models.CharField(max_length=50)
 
     referrer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -29,9 +29,6 @@ class ReferralPost(models.Model):
     def save(self, *args, **kwargs):
 
         self.available_slots = int(self.available_slots)  # 🔥 force int
-
-        if not self.job_id:
-            self.job_id = str(uuid.uuid4())[:8].upper()
 
         if self.available_slots <= 0:
             self.available_slots = 0
