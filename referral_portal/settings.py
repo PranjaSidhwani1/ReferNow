@@ -13,8 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-*w127r2rti%7a=4%o1j5ef)7%c*n46h0&xqf$27czdsm!6g8hh'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
-# DEBUG=True
+# DEBUG = os.environ.get("DEBUG", "False") == "True"
+DEBUG=True
 
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
