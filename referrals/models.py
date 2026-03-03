@@ -27,6 +27,9 @@ class ReferralPost(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
+
+        self.available_slots = int(self.available_slots)  # 🔥 force int
+
         if not self.job_id:
             self.job_id = str(uuid.uuid4())[:8].upper()
 
