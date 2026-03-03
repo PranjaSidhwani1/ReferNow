@@ -172,21 +172,30 @@ def update_application_status(request, app_id, action):
         referral__referrer=request.user
     )
 
+    referral = application.referral
+
     if application.status != "PENDING":
-        return redirect("post_applicants", post_id=application.referral.id)
+        return redirect("post_applicants", post_id=referral.id)
 
     if action == "accept":
-        if application.referral.available_slots > 0:
+        if referral.available_slots > 0:
             application.status = "APPROVED"
-            application.referral.available_slots -= 1
-            application.referral.save()
+            referral.available_slots -= 1
+            referral.save()
             application.save()
+
+            # 🔥 AUTO REJECT IF NO SLOTS LEFT
+            if referral.available_slots == 0:
+                Application.objects.filter(
+                    referral=referral,
+                    status="PENDING"
+                ).update(status="REJECTED")
 
     elif action == "reject":
         application.status = "REJECTED"
         application.save()
 
-    return redirect("post_applicants", post_id=application.referral.id)
+    return redirect("post_applicants", post_id=referral.id)
 
 @login_required
 def profile_detail(request, user_id):
