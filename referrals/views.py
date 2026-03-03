@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Application, ReferralPost
 from django.contrib import messages
+from .models import ChatMessage
 
 class CreateReferralPostView(APIView):
 
@@ -202,6 +203,7 @@ def profile_detail(request, user_id):
     user_obj = get_object_or_404(settings.AUTH_USER_MODEL, id=user_id)
     return render(request, "profile_detail.html", {"profile_user": user_obj})
 
+
 @login_required
 def candidate_detail(request, app_id):
     application = get_object_or_404(
@@ -210,6 +212,35 @@ def candidate_detail(request, app_id):
         referral__referrer=request.user
     )
 
+    if request.method == "POST":
+        if not application.chat_enabled:
+            return redirect("candidate_detail", app_id=app_id)
+        message = request.POST.get("message")
+
+        if message:
+            ChatMessage.objects.create(
+                application=application,
+                sender=request.user,
+                message=message
+            )
+        return redirect("candidate_detail", app_id=app_id)
+
+    messages = application.messages.select_related("sender").order_by("timestamp")
+
     return render(request, "candidate_detail.html", {
-        "application": application
+        "application": application,
+        "messages": messages
     })
+
+@login_required
+def open_chat(request, app_id):
+    application = get_object_or_404(
+        Application,
+        id=app_id,
+        referral__referrer=request.user
+    )
+
+    application.chat_enabled = True
+    application.save()
+
+    return redirect("candidate_detail", app_id=app_id)

@@ -9,6 +9,7 @@
         <th>Job Title</th>
         <th>Status</th>
         <th>Applied On</th>
+        <th>Chat</th> <!-- NEW COLUMN -->
     </tr>
 
     {% for app in applications %}
@@ -25,10 +26,23 @@
             {% endif %}
         </td>
         <td>{{ app.created_at }}</td>
+
+        <!-- CHAT COLUMN -->
+        <td>
+            {% if app.chat_enabled %}
+                <a href="{% url 'candidate_detail' app.id %}"
+                   class="btn btn-sm btn-primary">
+                    Open Chat
+                </a>
+            {% else %}
+                <span class="badge bg-secondary">Closed</span>
+            {% endif %}
+        </td>
+
     </tr>
     {% empty %}
     <tr>
-        <td colspan="4">No applications yet.</td>
+        <td colspan="5">No applications yet.</td>
     </tr>
     {% endfor %}
 </table>

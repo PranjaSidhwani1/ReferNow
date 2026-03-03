@@ -107,7 +107,27 @@ class Application(models.Model):
         default="PENDING"
     )
 
+    chat_enabled = models.BooleanField(default=False)  # 🔥 ADD THIS
+
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         unique_together = ('referral', 'applicant')
+
+class ChatMessage(models.Model):
+    application = models.ForeignKey(
+        Application,
+        on_delete=models.CASCADE,
+        related_name="messages"
+    )
+
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.sender.username}: {self.message[:20]}"
