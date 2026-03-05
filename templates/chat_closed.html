@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h3>Chat Closed</h3>
+<p class="text-muted">
+    {{ application.referral.company }} - {{ application.referral.job_title }}
+</p>
+
+<div class="alert alert-secondary">
+    The referrer has closed the chat.
+</div>
+
+<a href="{% url 'my_applications' %}" class="btn btn-outline-primary">
+    Back to My Applications
+</a>
+
+{% endblock %}
