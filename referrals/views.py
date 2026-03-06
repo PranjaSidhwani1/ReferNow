@@ -204,18 +204,18 @@ def profile_detail(request, user_id):
     return render(request, "profile_detail.html", {"profile_user": user_obj})
 
 
+
 @login_required
 def candidate_detail(request, app_id):
-    application = get_object_or_404(Application, id=app_id)
 
-    # 🔒 Allow only referrer OR applicant
-    if request.user != application.referral.referrer and request.user != application.applicant:
-        return redirect("posts_page")
+    application = get_object_or_404(
+        Application,
+        id=app_id,
+        referral__referrer=request.user
+    )
 
-    # Prevent sending message if chat not enabled
-    if request.method == "POST":
-        if not application.chat_enabled:
-            return redirect("candidate_detail", app_id=app_id)
+    # Handle sending messages (referrer side)
+    if request.method == "POST" and application.chat_enabled:
 
         message = request.POST.get("message")
 
@@ -235,34 +235,24 @@ def candidate_detail(request, app_id):
         "messages": messages
     })
 
-@login_required
-def open_chat(request, app_id):
-    application = get_object_or_404(
-        Application,
-        id=app_id,
-        referral__referrer=request.user
-    )
-
-    application.chat_enabled = True
-    application.save()
-
-    return redirect("candidate_detail", app_id=app_id)
 
 @login_required
 def candidate_chat(request, app_id):
+
     application = get_object_or_404(
         Application,
         id=app_id,
         applicant=request.user
     )
 
-    # 🔒 If chat closed → block access
+    # Block if chat disabled
     if not application.chat_enabled:
         return render(request, "chat_closed.html", {
             "application": application
         })
 
     if request.method == "POST":
+
         message = request.POST.get("message")
 
         if message:
@@ -281,12 +271,14 @@ def candidate_chat(request, app_id):
         "messages": messages
     })
 
+
 @login_required
 def toggle_chat(request, app_id):
+
     application = get_object_or_404(
         Application,
         id=app_id,
-        referral__referrer=request.user  # only referrer can toggle
+        referral__referrer=request.user
     )
 
     application.chat_enabled = not application.chat_enabled

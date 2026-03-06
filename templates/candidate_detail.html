@@ -88,12 +88,12 @@
     <div class="mb-3">
         {% if application.chat_enabled %}
             <a href="{% url 'toggle_chat' application.id %}"
-               class="btn btn-danger">
+            class="btn btn-danger">
                 Close Chat
             </a>
         {% else %}
             <a href="{% url 'toggle_chat' application.id %}"
-               class="btn btn-info">
+            class="btn btn-success">
                 Open Chat
             </a>
         {% endif %}

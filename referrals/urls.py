@@ -5,7 +5,7 @@ from .views import (
     post_list_page
 )
 
-from .views import create_post_page, apply_referral, my_applications_dashboard, my_posts_dashboard,post_applicants, profile_detail, update_application_status, candidate_detail, open_chat,candidate_chat,toggle_chat
+from .views import create_post_page, apply_referral, my_applications_dashboard, my_posts_dashboard,post_applicants, profile_detail, update_application_status, candidate_detail,candidate_chat,toggle_chat
 
 
 urlpatterns = [
@@ -24,7 +24,6 @@ urlpatterns = [
     path("profile/<int:user_id>/",profile_detail, name="profile_detail"),
     path("application/<int:app_id>/<str:action>/", update_application_status, name="update_application_status"),
     path("candidate/<int:app_id>/",candidate_detail, name="candidate_detail"),
-    path("open-chat/<int:app_id>/",open_chat,name="open_chat"),
     path("chat/<int:app_id>/",candidate_chat,name="candidate_chat"),
     path("application/<int:app_id>/toggle-chat/", toggle_chat,name="toggle_chat"),
 
