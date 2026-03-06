@@ -281,4 +281,4 @@ def toggle_chat(request, app_id):
     application.chat_enabled = not application.chat_enabled
     application.save()
 
-    return redirect(f"/api/referrals/candidate/{app_id}/")
+    return redirect("candidate_detail", app_id=app_id)
