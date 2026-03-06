@@ -205,6 +205,7 @@ def profile_detail(request, user_id):
 
 
 
+
 @login_required
 def candidate_detail(request, app_id):
 

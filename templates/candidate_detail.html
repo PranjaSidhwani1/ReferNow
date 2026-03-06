@@ -92,10 +92,20 @@
                 Close Chat
             </a>
         {% else %}
-            <a href="{% url 'toggle_chat' application.id %}"
-            class="btn btn-success">
-                Open Chat
-            </a>
+            <form method="POST" action="{% url 'toggle_chat' application.id %}">
+                {% csrf_token %}
+
+                {% if application.chat_enabled %}
+                    <button type="submit" class="btn btn-danger">
+                        Close Chat
+                    </button>
+                {% else %}
+                    <button type="submit" class="btn btn-success">
+                        Open Chat
+                    </button>
+                {% endif %}
+
+            </form>
         {% endif %}
     </div>
 
