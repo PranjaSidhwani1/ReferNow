@@ -15,7 +15,6 @@ urlpatterns = [
 
     # UI routes
     path('posts-page/', post_list_page, name='posts_page'),
-    path('posts-page/', post_list_page, name='posts_page'),
     path('create-post-page/', create_post_page, name='create_post_page'),
     path("apply/<int:referral_id>/", apply_referral, name="apply_referral"),
     path("my-applications/", my_applications_dashboard, name="my_applications"),
@@ -25,6 +24,6 @@ urlpatterns = [
     path("application/<int:app_id>/<str:action>/", update_application_status, name="update_application_status"),
     path("candidate/<int:app_id>/",candidate_detail, name="candidate_detail"),
     path("chat/<int:app_id>/",candidate_chat,name="candidate_chat"),
-    path("application/<int:app_id>/toggle-chat/", toggle_chat,name="toggle_chat"),
+    path("application/<int:app_id>/toggle-chat/", toggle_chat, name="toggle_chat"),
 
 ]

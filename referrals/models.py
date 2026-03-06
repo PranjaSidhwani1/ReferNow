@@ -107,8 +107,8 @@ class Application(models.Model):
         default="PENDING"
     )
 
-    chat_enabled = models.BooleanField(default=False)  # 🔥 ADD THIS
-
+    chat_enabled = models.BooleanField(default=False) 
+    
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
