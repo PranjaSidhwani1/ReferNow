@@ -9,6 +9,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import Application, ReferralPost
 from django.contrib import messages
 from .models import ChatMessage
+from referral_portal import settings
 
 class CreateReferralPostView(APIView):
 
