@@ -279,7 +279,7 @@ def toggle_chat(request, app_id):
     application = get_object_or_404(
         Application,
         id=app_id,
-        referral__referrer=request.user
+        # referral__referrer=request.user
     )
 
     application.chat_enabled = not application.chat_enabled
