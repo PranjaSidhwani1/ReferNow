@@ -85,29 +85,23 @@
     {% endif %}
 
     <!-- Chat Toggle Button -->
-    <div class="mb-3">
-        {% if application.chat_enabled %}
-            <a href="{% url 'toggle_chat' application.id %}"
-            class="btn btn-danger">
-                Close Chat
-            </a>
-        {% else %}
-            <form method="POST" action="{% url 'toggle_chat' application.id %}">
-                {% csrf_token %}
+     <div class="mb-3">
+        <form method="POST" action="{% url 'toggle_chat' application.id %}">
+            {% csrf_token %}
 
-                {% if application.chat_enabled %}
-                    <button type="submit" class="btn btn-danger">
-                        Close Chat
-                    </button>
-                {% else %}
-                    <button type="submit" class="btn btn-success">
-                        Open Chat
-                    </button>
-                {% endif %}
+            {% if application.chat_enabled %}
+                <button type="submit" class="btn btn-danger">
+                    Close Chat
+                </button>
+            {% else %}
+                <button type="submit" class="btn btn-success">
+                    Open Chat
+                </button>
+            {% endif %}
 
-            </form>
-        {% endif %}
+        </form>
     </div>
+
 
     <!-- Chat Section -->
     {% if application.chat_enabled %}
