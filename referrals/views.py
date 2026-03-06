@@ -276,13 +276,9 @@ def candidate_chat(request, app_id):
 @login_required
 def toggle_chat(request, app_id):
 
-    application = get_object_or_404(
-        Application,
-        id=app_id,
-        # referral__referrer=request.user
-    )
+    application = get_object_or_404(Application, id=app_id)
 
     application.chat_enabled = not application.chat_enabled
     application.save()
 
-    return redirect("candidate_detail", app_id=app_id)
+    return redirect(f"/api/referrals/candidate/{app_id}/")
